@@ -24,10 +24,10 @@ library(ROCR)
 ### Introduction 
 
 
-Welcome to my final project! This dataset is called "Significant Earthquakes, 1965-2016, and provides data for global earthquakes above 5.5 from 1965 to 2016. We're going to be exploring the frequency of earthquakes over a shorter period using this data, and predicting the magnitude of earthquakes in 2017.
+Welcome to my final project! This dataset is called "Significant Earthquakes, 1965-2016, and provides data for global earthquakes above 5.5 from 1965 to 2016. We're going to be exploring the frequency of earthquakes and magnitude change over ~40 years in the US, and estimating earthquake damage using regression and linear models.
 
 
-Do you live on the West Coast of the US? Or have friends who live in California? I do, and they always complain about the earthquakes in the LA and San Jose area. This type of data is important not only to determine safe living areas, but also for disaster reports and predicting possible damage to vulnerable countries. 
+Do you live on the West Coast of the US? Or know people who live in California? My friends are often nervous about the growing number of earthquakes in the Los Angeles and San Jose area. Analysis of earthquake data is important not only to determine safe living areas, but also for disaster reports and predicting future damage to vulnerable countries. 
 
 
 URL: https://www.kaggle.com/usgs/earthquake-database/data
@@ -48,10 +48,10 @@ raw_data %>% head()
 ```
 
 
-The Data looks hard to work with, and scrolling over to the right - we see lots of NA rows and some irrelevant attributes. Let's tidy the data by separating Date into Month, Day, and Year columns, and selecting only the attributes that we want.
+Let's look at this data. The Date attribute looks hard to work with, and scrolling over to the right -> we see lots of NA rows and some irrelevant attributes. Let's tidy the data by separating Date into Month, Day, and Year columns, and selecting only the attributes that we want.
 
 
-In this case, we're going to use rows: Year, Time, Latitude, Longitude, Type, Depth, Magnitude, Magnitude.Type, and Source (Location). We're especially interested in looking at the magnitude of earthquakes per year.  
+In this case, we're going to use attributes: Year, Time, Latitude, Longitude, Type, Depth, Magnitude, Magnitude.Type, and Source (Location). We're especially interested in looking at the magnitude of earthquakes per year.  
 
 
 ```{r fp_analysis1}
@@ -87,7 +87,7 @@ eq_data %>%
 ```
 
 
-Okay, that's a lot of data. There's spikes during some years, but it's difficult to tell what's happening. Let's create a violin plot to help us out. 
+Okay, that's a lot of data. There's spikes during some years, but it's difficult to tell what's happening. Let's create a violin plot to visualize the data in a more helpful way. 
 
 
 ```{r fp_analysis3}
@@ -235,7 +235,7 @@ lm_data %>%
 
 This model represents the relationship between Average Earthquake Magnitude and Time with the linear equation y = 3.2149 + 0.0013x, which means that Earthquake Magnitude has increased by about 3.22% each year since 1975. 
 
-Now, let's use this linear model to plot residuals. 
+Now, let's use this linear model to plot the spread of residuals. 
   
 
 ```{r fp_analysis11}
@@ -253,7 +253,9 @@ lm_data %>%
 
 This plot shows the distribution of the residuals for Average Earthquake Magnitude vs. Time. The distribution of residuals for a good fit should be indepedent of the data points, and we see here that the distribution stays constant. This means that our regression line was a good fit for the data, thus proving that the data reflects our linear model. 
 
+
 Therefore, Average Earthquake Magnitude and Time do correlate and are accurately represented by the linear model: y = 3.2149 + 0.0013x. What's the practical application of this? Well, based on our second to last plot, the average magnitude for earthquakes in the US was about 5.89 in 2016 and using the linear model, average magnitude will raise to 6.9 in 5 years (2019) and to 8.1 in 10 years (2026). The estimation for average magnitude of earthquakes in the US is estimated to be 11.1 in 20 years (2036), which is above richter scale chart (1-10). 
 
-Our best guess is that popular areas for earthquakes in the US (Los Angeles, San Francisco, San Jose, Mexico City, etc.) might become dangerous for living in 10-20 years. The statistically significant increase in EQ magnitude might also adversely affect Central American countries with new vigor, requiring evacuations and medical aid. Actions you might take from this data analysis include: moving family members to avoid earthquakes, funding Rescue/Aid organizations early to anticipate disasters, and studying tectonic plates as change happens.
+
+Our best guess is that popular areas for earthquakes in the US (LA, San Fran, San Jose, Mexico City, etc.) might become dangerous for living in 10-20 years. The statistically significant increase in EQ magnitude might also adversely affect Central American countries with new vigor, requiring evacuations and medical aid. Actions you might take from this data analysis include: moving family members to avoid earthquakes, funding Rescue/Aid organizations early to anticipate disasters, and studying tectonic plates as change happens.
 
