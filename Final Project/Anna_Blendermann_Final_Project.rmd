@@ -21,22 +21,22 @@ library(ROCR)
 ```
 
 
-## Introduction 
+### Introduction 
 
 
-### Welcome to my final project! This dataset is called "Significant Earthquakes, 1965-2016, and provides data for global earthquakes above 5.5 from 1965 to 2016. We're going to be exploring the frequency of earthquakes over a shorter period using this data, and predicting the magnitude of earthquakes in 2017.
+Welcome to my final project! This dataset is called "Significant Earthquakes, 1965-2016, and provides data for global earthquakes above 5.5 from 1965 to 2016. We're going to be exploring the frequency of earthquakes over a shorter period using this data, and predicting the magnitude of earthquakes in 2017.
 
 
-### Do you live on the West Coast of the US? Or have friends who live in California? I do, and they always complain about the earthquakes in the LA and San Jose area. This type of data is important not only to determine safe living areas, but also for disaster reports and predicting possible damage to vulnerable countries. 
+Do you live on the West Coast of the US? Or have friends who live in California? I do, and they always complain about the earthquakes in the LA and San Jose area. This type of data is important not only to determine safe living areas, but also for disaster reports and predicting possible damage to vulnerable countries. 
 
 
-### URL: https://www.kaggle.com/usgs/earthquake-database/data
+URL: https://www.kaggle.com/usgs/earthquake-database/data
 
 
-## 1. Load & Tidy the Data
+### 1. Load & Tidy the Data
 
 
-### Let's load the earthquake data! 
+Let's load the earthquake data! 
 
 
 ```{r fp_load_data}
@@ -48,10 +48,10 @@ raw_data %>% head()
 ```
 
 
-### The Data looks hard to work with, and scrolling over to the right - we see lots of NA rows and some irrelevant attributes. Let's tidy the data by separating Date into Month, Day, and Year columns, and selecting only the attributes that we want.
+The Data looks hard to work with, and scrolling over to the right - we see lots of NA rows and some irrelevant attributes. Let's tidy the data by separating Date into Month, Day, and Year columns, and selecting only the attributes that we want.
 
 
-### In this case, we're going to use rows: Year, Time, Latitude, Longitude, Type, Depth, Magnitude, Magnitude.Type, and Source (Location). We're especially interested in looking at the magnitude of earthquakes per year.  
+In this case, we're going to use rows: Year, Time, Latitude, Longitude, Type, Depth, Magnitude, Magnitude.Type, and Source (Location). We're especially interested in looking at the magnitude of earthquakes per year.  
 
 
 ```{r fp_analysis1}
@@ -69,10 +69,10 @@ eq_data %>% head()
 ```
 
 
-## Visualize the Tidy Data
+### 2. Visualize the Tidy Data
 
 
-### Let's visualize our data! Let's graph earthquake magnitude vs. year and see what kind of shape the data takes. 
+Let's visualize our data! Let's graph earthquake magnitude vs. year and see what kind of shape the data takes. 
 
 
 ```{r fp_analysis2}
@@ -87,7 +87,7 @@ eq_data %>%
 ```
 
 
-### Okay, that's a lot of data. There's spikes during some years, but it's difficult to tell what's happening. Let's create a violin plot to help us out. 
+Okay, that's a lot of data. There's spikes during some years, but it's difficult to tell what's happening. Let's create a violin plot to help us out. 
 
 
 ```{r fp_analysis3}
@@ -102,10 +102,10 @@ eq_data %>%
 ```
 
 
-### This is better! From this violin plot, we can see that the distribution of earthquake magnitude per year centers around 5.6-5.8. Earthquakes with magnitudes of 7-9 are rarer, and ocurred the most in the early 1970s and around 2010. 
+This is better! From this violin plot, we can see that the distribution of earthquake magnitude per year centers around 5.6-5.8. Earthquakes with magnitudes of 7-9 are rarer, and ocurred the most in the early 1970s and around 2010. 
 
 
-### However, this is still a lot of data. Let's condense things by plotting Average Earthquake Magnitude and looking at how this changes over time.
+However, this is still a lot of data. Let's condense things by plotting Average Earthquake Magnitude and looking at how this changes over time.
 
 
 ```{r fp_analysis4}
@@ -128,13 +128,12 @@ eq_data2 %>%
 ```
 
 
-### Ahh! This sheds some light on things. The Average Magnitude of earthquakes from 1965-1975 was pretty high, and then dropped back down to 5.8, before fluctuating and increasing over time. Thus, Average Earthquake Magnitude looks like it has a positive correlation with Time after 1975. 
+Ahh! This sheds some light on things. The Average Magnitude of earthquakes from 1965-1975 was pretty high, and then dropped back down to 5.8, before fluctuating and increasing over time. Thus, Average Earthquake Magnitude looks like it has a positive correlation with Time after 1975. 
+
+### 3. Narrowing Down the Data
 
 
-### Narrowing Down the Data
-
-
-### Now, can we narrow down our data at all? Since there was an earthquake spike in the early 1970's, we can plot our data for years after 1972 to remove this predictor. Let's also take our variables: Average Earthquake Magnitude and Time, and plot these by disaster type and location.  
+Now, can we narrow down our data at all? Since there was an earthquake spike in the early 1970's, we can plot our data for years after 1972 to remove this predictor. Let's also take our variables: Average Earthquake Magnitude and Time, and plot these by disaster type and location.  
 
 
 ```{r fp_analysis5}
@@ -154,7 +153,7 @@ eq_data3 %>%
 ```
 
 
-### By plotting this, we discover that our dataset actually has more types of disasters than earthquakes. However, earthquakes are by far the most common and has the best and broadest distribution for creating a linear model for the data. We will just use earthquakes!
+By plotting this, we discover that our dataset actually has more types of disasters than earthquakes. However, earthquakes are by far the most common and has the best and broadest distribution for creating a linear model for the data. We will just use earthquakes!
 
 
 ```{r fp_analysis6}
@@ -167,7 +166,7 @@ eq_data4 %>% head()
 ```
 
 
-### What about categorizing the data by location?
+What about categorizing the data by location?
 
 
 ```{r fp_analysis7}
@@ -183,7 +182,7 @@ eq_data4 %>%
 ```
 
 
-### Here, we notice that the US is the only country with a full distribution of data points across all years and will be the best classifier for our linear model. Let's only use the US! 
+Here, we notice that the US is the only country with a full distribution of data points across all years and will be the best classifier for our linear model. Let's only use the US! 
 
 
 ```{r fp_analysis8}
@@ -196,13 +195,13 @@ eq_data5 %>% head()
 ```
 
 
-### Now that we've plotted Magnitude and Average Magnitude over Time, and narrowed down our analysis to only earthquakes in the US, let's answer this question: Based on previous data, how much will earthquake magnitude increase in the US over the next 5-10 years? 20 years? 
+Now that we've plotted Magnitude and Average Magnitude over Time, and narrowed down our analysis to only earthquakes in the US, let's answer this question: Based on previous data, how much will earthquake magnitude increase in the US over the next 5-10 years? 20 years? 
 
 
-## How Well do Average Magnitude and Time correlate?
+### 4. Correlate Using a Linear Model
 
 
-### How well does Average Earthquake Magnitude correlate with Time? To answer this question, we need to fit a regression line to the data and display the data. Remember, we're only plotting earthquake data from after 1972 so the spike from the 1970's doesn't mess with our model.   
+How well does Average Earthquake Magnitude correlate with Time? To answer this question, we need to fit a regression line to the data and display the data. Remember, we're only plotting earthquake data from after 1972.   
 
 
 ```{r fp_analysis9}
@@ -218,10 +217,10 @@ eq_data5 %>%
 ```
 
 
-### Fantastic! Now, to find out how well Average Earthquake Magnitude and Time correlate, we can plot a measurement of best fit for the regression line: Residuals. The Residuals tell us how close or far away our data points are from the line by calculating average squared distances.
+Fantastic! Now, to find out how well Average Earthquake Magnitude and Time correlate, we can plot a measurement of best fit for the regression line: Residuals. The Residuals tell us how close or far away our data points are from the line by calculating average squared distances.
 
 
-### How do we get the Residuals? We create a linear model! When we create the linear model, a attribute .resid gets created that we can use to plot the Residuals.
+How do we get the Residuals? We create a linear model. When we create the linear model, a attribute .resid gets created that we can use to plot the Residuals.
 
 
 ```{r fp_analysis10}
@@ -234,9 +233,9 @@ lm_data %>%
 ```
 
 
-### This model represents the relationship between Average Earthquake Magnitude and Time with the linear equation y = 3.2149 + 0.0013x, which means that Earthquake Magnitude has increased by about 3.22% each year since 1975. 
+This model represents the relationship between Average Earthquake Magnitude and Time with the linear equation y = 3.2149 + 0.0013x, which means that Earthquake Magnitude has increased by about 3.22% each year since 1975. 
 
-### Now, let's use this linear model to plot residuals. 
+Now, let's use this linear model to plot residuals. 
   
 
 ```{r fp_analysis11}
@@ -252,8 +251,9 @@ lm_data %>%
 ```
 
 
-### This plot shows the distribution of the Residuals for Average Earthquake Magnitude vs. Time. The distribution of residuals for a good fit are distributed independently of the data points, and we see here that the distribution stays constant. This means that our regression line was a good fit for the data, thus proving that the data reflects our linear model. 
+This plot shows the distribution of the residuals for Average Earthquake Magnitude vs. Time. The distribution of residuals for a good fit should be indepedent of the data points, and we see here that the distribution stays constant. This means that our regression line was a good fit for the data, thus proving that the data reflects our linear model. 
 
-### Therefore, Average Earthquake Magnitude and Time DO correlate, specifically represented by the linear model: y = 3.2149 + 0.0013x. What's the practical application of this? Well, based on our previous plot, the average magnitude for earthquakes globally was about 5.89 and using the linear model, average magnitude will raise to 6.9 in 5 years (2019) and to 8.1 in 10 years (2026).
+Therefore, Average Earthquake Magnitude and Time do correlate and are accurately represented by the linear model: y = 3.2149 + 0.0013x. What's the practical application of this? Well, based on our second to last plot, the average magnitude for earthquakes in the US was about 5.89 in 2016 and using the linear model, average magnitude will raise to 6.9 in 5 years (2019) and to 8.1 in 10 years (2026). The estimation for average magnitude of earthquakes in the US is estimated to be 11.1 in 20 years (2036), which is above richter scale chart (1-10). 
 
+Our best guess is that popular areas for earthquakes in the US (Los Angeles, San Francisco, San Jose, Mexico City, etc.) might become dangerous for living in 10-20 years. The statistically significant increase in EQ magnitude might also adversely affect Central American countries with new vigor, requiring evacuations and medical aid. Actions you might take from this data analysis include: moving family members to avoid earthquakes, funding Rescue/Aid organizations early to anticipate disasters, and studying tectonic plates as change happens.
 
